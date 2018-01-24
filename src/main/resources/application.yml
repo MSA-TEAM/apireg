@@ -1,0 +1,19 @@
+server:
+  port: 8761
+endpoints:
+  shutdown:
+    enabled: true
+    sensitive: false
+eureka:
+  instance:
+    hostname: localhost
+    leaseExpirationDurationInSeconds: 10
+    leaseRenewalIntervalInSeconds: 3
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+management:
+  security:
+    enabled: false

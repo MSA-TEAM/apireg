@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
+        <RollingRandomAccessFile name="RollingRandomAccessFile"
+                                 fileName="/home/ec2-user/registry/log/server.log"
+                                 immediateFlush="true"
+                                 append="true"
+                                 filePattern="/home/ec2-user/registry/log/${date:yyyy-MM}/server-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %-5level %logger{36}| %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+
+        <!--<Logger name="com.netflix.discovery" level="off" >-->
+            <!--<AppenderRef ref="RollingRandomAccessFile"/>-->
+        <!--</Logger>-->
+
+        <Root level="info" includeLocation="true">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingRandomAccessFile"/>
+        </Root>
+    </Loggers>
+
+
+</Configuration>
