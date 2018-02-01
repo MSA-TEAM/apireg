@@ -1,4 +1,5 @@
 node {
+
 	properties([
         pipelineTriggers([
             [$class: 'GenericTrigger',
@@ -21,12 +22,6 @@ node {
             ]
         ])
     ])
-
-    stage("Info") {
-        echo "Repository : ${repository}/${reference}"
-        echo "$env.BUILD_URL"
-		echo "${after} => ${before}"
-    }
 
     stage('Checkout') {
         checkout scm
