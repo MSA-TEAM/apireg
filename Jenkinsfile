@@ -4,19 +4,13 @@ node {
         pipelineTriggers([
             [$class: 'GenericTrigger',
                 genericVariables: [
-                    [expressionType: 'JSONPath', key: 'reference', value: '$.ref'],
                     [expressionType: 'JSONPath', key: 'before', value: '$.before'],
                     [expressionType: 'JSONPath', key: 'after', value: '$.after'],
+                    [expressionType: 'JSONPath', key: 'reference', value: '$.ref'],
                     [expressionType: 'JSONPath', key: 'repository', value: '$.repository.full_name']
                 ],
-                genericRequestVariables: [
-                    [key: 'requestWithNumber', regexpFilter: '[^0-9]'],
-                    [key: 'requestWithString', regexpFilter: '']
-                ],
-                genericHeaderVariables: [
-                    [key: 'headerWithNumber', regexpFilter: '[^0-9]'],
-                    [key: 'headerWithString', regexpFilter: '']
-                ],
+                genericRequestVariables: [],
+                genericHeaderVariables: [],
                 regexpFilterText: '$repository/$reference',
                 regexpFilterExpression: 'MSA/apireg/refs/heads/master'
             ]
