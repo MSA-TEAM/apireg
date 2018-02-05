@@ -1,0 +1,47 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: msa-apireg-service
+spec:
+  type: NodePort
+  selector:
+    app: msa-apireg
+  ports:
+  - protocol: TCP
+    port: 8761
+    nodePort: 30000
+    targetPort: 8761
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: msa-apireg
+  labels:
+    app: msa-apireg
+    visualize: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msa-apireg
+  template:
+    metadata:
+      labels:
+        app: msa-apireg
+        version: "1.0.0-RELEASE"
+    spec:
+      containers:
+      - name: msa-apireg
+        image: docker.gsp.sicc.co.kr/apireg:1.0.0-RELEASE
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: prd
+        - name: spring.cloud.config.uri
+          value: http://100.70.69.238:8888
+        - name: eureka.datacenter
+          value: GSP Cluster
+        - name: eureka.environment
+          value: Development Environment
+        ports:
+        - name: http
+          containerPort: 8761
