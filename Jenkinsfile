@@ -27,16 +27,24 @@ node {
 
     stage('Build') {
         try {
-            sh './gradlew build dockerPush'
+            sh './gradlew build'
             archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
         } catch(e) {
             mail subject: "Jenkins Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed with ${e.message}",
-                to: 'blue.park@kt.com',
+                to: 'jungim.kim@sicc.co.kr',
                 body: "Please go to $env.BUILD_URL."
         }
     }
 
+    stage('Archive') {
+        archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
+    }
+
+    staget('Push') {
+        sh './gradlew dockerPush'
+    }
+
     stage('Deploy') {
-        sh 'kubectl apply -f deployment.yaml'
+        sh 'kubectl apply --namespace=development -f deployment.yaml'
     }
 }
