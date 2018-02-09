@@ -44,7 +44,7 @@ node {
     stage('Archive') {
         parallel (
             "Archive Artifacts" : {
-                archiveArtifacts artifacts: '**/build/libs/*.war', fingerprint: true
+                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
             },
             "Docker Image Push" : {
                 sh './gradlew dockerPush'
