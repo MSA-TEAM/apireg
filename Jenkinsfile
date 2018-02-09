@@ -1,3 +1,4 @@
+#!groovy
 node {
     properties([
         pipelineTriggers([
@@ -8,18 +9,27 @@ node {
                     [expressionType: 'JSONPath', key: 'reference', value: '$.ref'],
                     [expressionType: 'JSONPath', key: 'repository', value: '$.repository.full_name']
                 ],
-                genericRequestVariables: [],
-                genericHeaderVariables: [],
+                genericRequestVariables: [
+                    [key: 'requestWithNumber', regexpFilter: '[^0-9]'],
+                    [key: 'requestWithString', regexpFilter: '']
+                ],
+                genericHeaderVariables: [
+                    [key: 'headerWithNumber', regexpFilter: '[^0-9]'],
+                    [key: 'headerWithString', regexpFilter: '']
+                ],
                 regexpFilterText: '$repository/$reference',
                 regexpFilterExpression: 'MSA/apireg/refs/heads/master'
             ]
         ])
     ])
 
-    echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+    stage('Info') {
+        echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+    }
 
-    checkout scm
-
+    stage('Checkout') {
+        checkout scm
+    }
 
     stage('Test') {
         sh './gradlew check || true'
@@ -28,7 +38,6 @@ node {
     stage('Build') {
         try {
             sh './gradlew build'
-            archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
         } catch(e) {
             mail subject: "Jenkins Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed with ${e.message}",
                 to: 'jungim.kim@sicc.co.kr',
