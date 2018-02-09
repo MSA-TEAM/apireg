@@ -42,11 +42,16 @@ node {
     }
 
     stage('Archive') {
-        archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
-    }
+        parallel{
+            stage('Archive Artifacts') {
+                archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
+            }
 
-    stage('Push') {
-        sh './gradlew dockerPush'
+            stage('Docker Image Push') {
+                sh './gradlew dockerPush'
+            }
+        }
+
     }
 
     stage('Deploy') {
