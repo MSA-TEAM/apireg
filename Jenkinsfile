@@ -45,7 +45,7 @@ node {
         archiveArtifacts artifacts: '**/build/libs/*.jar', fingerprint: true
     }
 
-    staget('Push') {
+    stage('Push') {
         sh './gradlew dockerPush'
     }
 
