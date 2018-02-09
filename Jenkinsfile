@@ -23,21 +23,17 @@ node {
         ])
     ])
 
-    stage('Info') {
-        echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-    }
-
     stage('Checkout') {
         checkout scm
     }
 
     stage('Test') {
-        sh './gradlew check || true'
+        sh './gradlew test || true'
     }
 
     stage('Build') {
         try {
-            sh './gradlew build'
+            sh './gradlew build -x test'
         } catch(e) {
             mail subject: "Jenkins Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed with ${e.message}",
                 to: 'jungim.kim@sicc.co.kr',
