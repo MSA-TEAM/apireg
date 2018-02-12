@@ -33,7 +33,7 @@ node {
 
     stage('Build') {
         try {
-            sh './gradlew build -x test'
+            sh './gradlew clean build -x test'
         } catch(e) {
             mail subject: "Jenkins Job '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed with ${e.message}",
                 to: 'jungim.kim@sicc.co.kr',
