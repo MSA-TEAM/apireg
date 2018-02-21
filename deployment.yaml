@@ -3,14 +3,12 @@ apiVersion: v1
 metadata:
   name: msa-apireg
 spec:
-  type: NodePort
+  clusterIP: None
   selector:
     app: msa-apireg
   ports:
-  - protocol: TCP
-    port: 8761
-    nodePort: 30000
-    targetPort: 8761
+  - port: 8761
+    name: web
 ---
 apiVersion: apps/v1beta2
 kind: StatefulSet
@@ -30,7 +28,6 @@ spec:
         app: msa-apireg
         version: "1.0.1"
     spec:
-      clusterIP: None
       containers:
       - name: apireg
         image: docker.gsp.sicc.co.kr/apireg:1.0.1
