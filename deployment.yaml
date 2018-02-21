@@ -15,9 +15,9 @@ spec:
 apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
-  name: msa-apireg
+  name: apireg
   labels:
-    app: msa-apireg
+    app: apireg
 spec:
   serviceName: msa-apireg
   replicas: 2
@@ -31,7 +31,7 @@ spec:
         version: "1.0.1"
     spec:
       containers:
-      - name: msa-apireg
+      - name: apireg
         image: docker.gsp.sicc.co.kr/apireg:1.0.1
         env:
         - name: SPRING_PROFILES_ACTIVE
@@ -43,7 +43,7 @@ spec:
         - name: eureka.environment
           value: Development Environment
         - name: eureka.client.serviceUrl.defaultZone
-          value: http://msa-apireg-0.msa-apireg.development.svc.cluster.local:8761/eureka/,http://msa-apireg-1.msa-apireg.development.svc.cluster.local:8761/eureka/
+          value: http://apireg-0.msa-apireg.development.svc.cluster.local:8761/eureka/,http://apireg-1.msa-apireg.development.svc.cluster.local:8761/eureka/
         ports:
         - name: http
           containerPort: 8761
