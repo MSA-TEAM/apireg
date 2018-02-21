@@ -31,7 +31,7 @@ spec:
         version: "1.0.1"
     spec:
       containers:
-      - name: eureka
+      - name: msa-apireg
         image: docker.gsp.sicc.co.kr/apireg:1.0.1
         env:
         - name: SPRING_PROFILES_ACTIVE
