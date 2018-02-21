@@ -6,7 +6,6 @@ spec:
   type: NodePort
   selector:
     app: msa-apireg
-  clusterIP: None
   ports:
   - protocol: TCP
     port: 8761
@@ -31,6 +30,7 @@ spec:
         app: msa-apireg
         version: "1.0.1"
     spec:
+      clusterIP: None
       containers:
       - name: apireg
         image: docker.gsp.sicc.co.kr/apireg:1.0.1
